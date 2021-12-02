@@ -2,7 +2,7 @@
 var currDirection;
 var currScene = 1;
 var score = 0;
-
+var l = 0; //food counter
 //Creating a "snake head" that will move around using button inputs
 var Snake = function(x, y, direction) {
     this.x = x;
@@ -43,15 +43,10 @@ Food.prototype.draw = function() {
 };
 
 var foodArray = [];
-for (var  i = 0; i < foodArray.length; i++) {
-    food.push((new food(round(random(30, 360)), round(random(30, 360)));
-    
-
-
+for (var  i = 0; i < 500; i++) {
+    var food = new Food(round(random(30, 360)), round(random(30, 360)));    
+    foodArray.push(food);
 }
-
-
-var food = new Food(round(random(30, 360)), round(random(30, 360)));
 
 //end of food
 
@@ -180,7 +175,8 @@ draw = function() {
         if (snake.x >= food.x - 10 && snake.x <= food.x&& snake.y >= food.y - 10 && snake.y <= food.y) {
             score++;
             food.x = 450;
-            
+            var food2 = new Food(round(random(30, 360)), round(random(30, 360)));
+            food2.draw();
         }
         if (snake.x <= 20 || snake.x >= 370 || snake.y <= 20 || snake.y >= 370) {
             currScene = 3;
