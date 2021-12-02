@@ -1,0 +1,161 @@
+//global variables
+var currDirection;
+var currScene = 1;
+var score = 0;
+
+//Creating a "snake head" that will move around using button inputs
+var Snake = function(x, y, direction) {
+    this.x = x;
+    this.y = y;
+    this.direction = direction;
+};
+Snake.prototype.draw = function() {
+     fill(16, 26, 173);
+     strokeWeight(1);
+     rect(this.x, this.y, 10, 10);
+};
+Snake.prototype.up = function(direction) {
+     this.y -= 1;
+};
+Snake.prototype.down = function(direction) {
+     this.y += 1;
+};
+Snake.prototype.right = function(direction) {
+     this.x += 1;
+};
+Snake.prototype.left = function(direction) {
+     this.x -= 1;
+};
+//Snake function
+var snake = new Snake(200, 200, UP);
+//end of snake
+
+//start of button section
+var Button = function(config) {
+    this.x = config.x || 0;
+    this.y = config.y || 0;
+    this.width = config.width || 150;
+    this.height = config.height || 50;
+    this.label = config.label || "Click";
+    this.onClick = config.onClick || function() {};
+};
+
+Button.prototype.draw = function() {
+    fill(87, 247, 255);
+    rect(this.x, this.y, this.width, this.height, 5);
+    fill(235, 0, 59);
+    textSize(18);
+    textAlign(LEFT, TOP);
+    text(this.label, this.x + 10, this.y+this.height / 4);
+};
+
+Button.prototype.isMouseInside = function() {
+    return mouseX > this.x &&
+           mouseX < (this.x + this.width) &&
+           mouseY > this.y &&
+           mouseY < (this.y + this.height);
+};
+
+Button.prototype.handleMouseClick = function() {
+    if (this.isMouseInside()) {
+        this.onClick();
+    }
+};//end of button config
+
+//buttons
+var startButton = new Button({
+    x: 125,
+    y: 270,
+    label: "Click to Start!",
+    onClick: function() {
+        currScene = 2;
+    }
+});
+
+var restartButton = new Button({
+    x: 125,
+    y: 270,
+    label: "Click to restart!",
+    onClick: function() {
+        snake.x = 200;
+        snake.y = 200;
+        currScene = 2;
+    }
+});
+
+mouseClicked = function() {
+    startButton.handleMouseClick();
+    restartButton.handleMouseClick();
+};
+//end of buttons
+
+var titleScreen = function() {
+    background(88, 200, 240);
+    startButton.draw();
+    textSize(40);
+    fill(37, 130, 33);
+    text("The Snake Game", 40, 90, 352, 100);
+    textSize(20);
+    text("By Jason Li & Matthew Tibbitts", 60, 230, 300, 100);
+};
+
+var snakeScreen = function() {
+    background(64, 242, 255);
+    fill(172, 217, 48);
+    rect(20, 20, 360, 360);
+    fill(0, 0, 0);
+    text("Snake Size: " + score, 5, 1);
+};
+
+var gameoverScreen = function () {
+    background(17, 56, 69);
+    restartButton.draw();
+    textSize(52);
+    fill(37, 130, 33);
+    text("You've died!", 50, 68, 300, 109);
+    textSize(30);
+    text("Your Score: " + score, 101, 148);
+    textSize(20);
+    text("Press the button below to start over",40,218,315,100);
+};
+
+var snakeAdd = [];
+
+for (var i = 0; i < snakeAdd.length; i++) {
+    if (score % 2 === 0) 
+    {
+        var snake2 = new Snake(100, 100, UP);
+        if (millis() % 2 === 1)
+        {
+            snake.draw();
+        }
+    }
+}
+
+//draw function
+draw = function() {
+    if (currScene === 1) 
+        {titleScreen(); //title screen
+        }
+    if (currScene === 2) {
+        textSize(15);
+        snakeScreen();  //game screen
+        snake.draw(); //starts the snake
+        if (snake.x > 20 && snake.x < 370 && snake.y > 20 && snake.y < 370){
+            if (keyIsPressed && keyCode === UP) //changing the snake direction (each key is what direction the snake goes)
+            {snake.up();}
+            if (keyIsPressed && keyCode === DOWN)
+            {snake.down();}
+            if (keyIsPressed && keyCode === LEFT)
+            {snake.left();}
+            if (keyIsPressed && keyCode === RIGHT)
+            {snake.right();}
+        }
+        if (snake.x <= 20 || snake.x >= 370 || snake.y <= 20 || snake.y >= 370) {
+            currScene = 3;
+        }
+    }
+    if (currScene === 3) {
+        gameoverScreen();
+    }
+};
