@@ -30,6 +30,21 @@ Snake.prototype.left = function(direction) {
 var snake = new Snake(200, 200, UP);
 //end of snake
 
+//food function
+var Food = function(x, y) {
+    this.x = x;
+    this.y = y;
+};
+
+Food.prototype.draw = function() {
+    fill(255, 0, 0);
+    strokeWeight(1);
+    ellipse(this.x, this.y, 10, 10);
+};
+var food = new Food(round(random(20, 350)), round(random(20, 350)));
+
+//end of food
+
 //start of button section
 var Button = function(config) {
     this.x = config.x || 0;
@@ -141,6 +156,7 @@ draw = function() {
         textSize(15);
         snakeScreen();  //game screen
         snake.draw(); //starts the snake
+        food.draw();
         if (snake.x > 20 && snake.x < 370 && snake.y > 20 && snake.y < 370){
             if (keyIsPressed && keyCode === UP) //changing the snake direction (each key is what direction the snake goes)
             {snake.up();}
@@ -150,6 +166,10 @@ draw = function() {
             {snake.left();}
             if (keyIsPressed && keyCode === RIGHT)
             {snake.right();}
+        }
+        if (snake.x >= food.x && snake.x <= food.x + 10 && snake.y >= food.y && snake.y <= food.y + 10) {
+            score++;
+            var food = new Food(round(random(20, 350)), round(random(20, 350)));
         }
         if (snake.x <= 20 || snake.x >= 370 || snake.y <= 20 || snake.y >= 370) {
             currScene = 3;
