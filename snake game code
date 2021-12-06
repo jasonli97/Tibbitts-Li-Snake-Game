@@ -2,8 +2,12 @@
 var currDirection;
 var currScene = 1;
 var score = 0;
+var highScore = 0;
 var l = 0; //food counter
 //Creating a "snake head" that will move around using button inputs
+var snakeLength = [];
+
+//start of snake
 var Snake = function(x, y, direction) {
     this.x = x;
     this.y = y;
@@ -28,6 +32,7 @@ Snake.prototype.left = function(direction) {
 };
 //Snake function
 var snake = new Snake(200, 200, UP);
+snakeLength.push(snake);
 //end of snake
 
 //food function
@@ -44,10 +49,12 @@ Food.prototype.draw = function() {
 
 var foodArray = [];
 for (var  i = 0; i < 500; i++) {
-    var food = new Food(round(random(30, 360)), round(random(30, 360)));    
-    foodArray.push(food);
+    foodArray.push(new Food(round(random(30, 360)), round(random(30, 360))));
 }
 
+var drawFood = function() {
+    foodArray[l].draw();
+};
 //end of food
 
 //start of button section
@@ -100,6 +107,7 @@ var restartButton = new Button({
         snake.x = 200;
         snake.y = 200;
         currScene = 2;
+        score = 0;
     }
 });
 
@@ -124,7 +132,7 @@ var snakeScreen = function() {
     fill(172, 217, 48);
     rect(20, 20, 360, 360);
     fill(0, 0, 0);
-    text("Snake Size: " + score, 5, 1);
+    text("Score: " + score + "              Highscore: " + highScore, 5, 1);
 };
 
 var gameoverScreen = function () {
@@ -133,24 +141,18 @@ var gameoverScreen = function () {
     textSize(52);
     fill(37, 130, 33);
     text("You've died!", 50, 68, 300, 109);
-    textSize(30);
-    text("Your Score: " + score, 101, 148);
+    textSize(20);
+    text("Your Score: " + score + "  Highscore: " + highScore, 79, 148);
     textSize(20);
     text("Press the button below to start over",40,218,315,100);
 };
 
-var snakeAdd = [];
-
-for (var i = 0; i < snakeAdd.length; i++) {
-    if (score % 2 === 0) 
-    {
-        var snake2 = new Snake(100, 100, UP);
-        if (millis() % 2 === 1)
-        {
-            snake.draw();
-        }
+var snakeAdd = function(){
+    if (score % 2 === 0){
+        snakeLength.push(new Snake(snake.x - 5, snake.y, snake.direction));
+        
     }
-}
+};
 
 //draw function
 draw = function() {
@@ -161,7 +163,7 @@ draw = function() {
         textSize(15);
         snakeScreen();  //game screen
         snake.draw(); //starts the snake
-        food.draw();
+        drawFood();
         if (snake.x > 20 && snake.x < 370 && snake.y > 20 && snake.y < 370){
             if (keyIsPressed && keyCode === UP) //changing the snake direction (each key is what direction the snake goes)
             {snake.up();}
@@ -172,11 +174,14 @@ draw = function() {
             if (keyIsPressed && keyCode === RIGHT)
             {snake.right();}
         }
-        if (snake.x >= food.x - 10 && snake.x <= food.x&& snake.y >= food.y - 10 && snake.y <= food.y) {
+        if (snake.x >= foodArray[l].x - 15 && snake.x <= foodArray[l].x + 5 && snake.y >= foodArray[l].y - 15 && snake.y <= foodArray[l].y + 5) {
             score++;
-            food.x = 450;
-            var food2 = new Food(round(random(30, 360)), round(random(30, 360)));
-            food2.draw();
+            foodArray[l].x = 450;
+            l++;
+            if (score > highScore){
+                highScore = score;
+            }
+            snakeAdd();
         }
         if (snake.x <= 20 || snake.x >= 370 || snake.y <= 20 || snake.y >= 370) {
             currScene = 3;
