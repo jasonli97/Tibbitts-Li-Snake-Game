@@ -155,6 +155,32 @@ var snakeAdd = function(){
     }
 };
 
+var snakeMovement = function () {
+    var direction;
+    if (snake.x > 20 && snake.x < 370 && snake.y > 20 && snake.y < 370){
+            if (keyIsPressed && keyCode === UP) //changing the snake direction (each key is what direction the snake goes)
+            {snake.up();
+            direction = snake.x;
+            direction = snake.y;
+            }
+            if (keyIsPressed && keyCode === DOWN)
+            {snake.down();
+            direction = snake.x;
+            direction = snake.y;
+            }
+            if (keyIsPressed && keyCode === LEFT)
+            {snake.left();
+            direction = snake.x;
+            direction = snake.y;
+            }
+            if (keyIsPressed && keyCode === RIGHT)
+            {snake.right();
+            direction = snake.x;
+            direction = snake.y;
+            }
+        }
+};
+
 //draw function
 draw = function() {
     if (currScene === 1) 
@@ -165,16 +191,7 @@ draw = function() {
         snakeScreen();  //game screen
         snake.draw(); //starts the snake
         drawFood();
-        if (snake.x > 20 && snake.x < 370 && snake.y > 20 && snake.y < 370){
-            if (keyIsPressed && keyCode === UP) //changing the snake direction (each key is what direction the snake goes)
-            {snake.up();}
-            if (keyIsPressed && keyCode === DOWN)
-            {snake.down();}
-            if (keyIsPressed && keyCode === LEFT)
-            {snake.left();}
-            if (keyIsPressed && keyCode === RIGHT)
-            {snake.right();}
-        }
+        snakeMovement();
         if (snake.x >= foodArray[l].x - 15 && snake.x <= foodArray[l].x + 5 && snake.y >= foodArray[l].y - 15 && snake.y <= foodArray[l].y + 5) {
             score++;
             foodArray[l].x = 450;
