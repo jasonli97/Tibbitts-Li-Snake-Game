@@ -1,10 +1,10 @@
 //global variables
-var currDirection;
 var currScene = 1;
 var score = 0;
 var highScore = 0;
 var l = 0; //food counter
 //Creating a "snake head" that will move around using button inputs
+var direction; //direction the snake is heading; 1 = up, 2 = down, 3 = left, 4 = right
 
 //start of snake
 var Snake = function(x, y, direction) {
@@ -21,18 +21,19 @@ Snake.prototype.draw = function() {
          rect(this.x - 10 * i, this.y, 10, 10);
      }
 };
-Snake.prototype.up = function(direction) {
+Snake.prototype.up = function() {
      this.y -= 1;
 };
-Snake.prototype.down = function(direction) {
+Snake.prototype.down = function() {
      this.y += 1;
 };
-Snake.prototype.right = function(direction) {
+Snake.prototype.right = function() {
      this.x += 1;
 };
-Snake.prototype.left = function(direction) {
+Snake.prototype.left = function() {
      this.x -= 1;
 };
+
 //Snake function
 var snake = new Snake(200, 200, UP);
 //end of snake
@@ -154,31 +155,21 @@ var snakeAdd = function(){
         snake.tail++;
     }
 };
-
-var snakeMovement = function () {
-    var direction;
-    if (snake.x > 20 && snake.x < 370 && snake.y > 20 && snake.y < 370){
-            if (keyIsPressed && keyCode === UP) //changing the snake direction (each key is what direction the snake goes)
-            {snake.up();
-            direction = snake.x;
-            direction = snake.y;
-            }
-            if (keyIsPressed && keyCode === DOWN)
-            {snake.down();
-            direction = snake.x;
-            direction = snake.y;
-            }
-            if (keyIsPressed && keyCode === LEFT)
-            {snake.left();
-            direction = snake.x;
-            direction = snake.y;
-            }
-            if (keyIsPressed && keyCode === RIGHT)
-            {snake.right();
-            direction = snake.x;
-            direction = snake.y;
-            }
+snake.move = function(direction) {
+    if (keyIsPressed === false) {
+        if (direction === 1) {
+            snake.up();
         }
+        if (direction === 2) {
+            snake.down();
+        }
+        if (direction === 3) {
+            snake.left();
+        }
+        if (direction === 4) {
+            snake.right();
+        }
+    }
 };
 
 //draw function
@@ -191,7 +182,29 @@ draw = function() {
         snakeScreen();  //game screen
         snake.draw(); //starts the snake
         drawFood();
-        snakeMovement();
+        snake.move(direction);
+        if (snake.x > 20 && snake.x < 370 && snake.y > 20 && snake.y < 370){
+            if (keyIsPressed && keyCode === UP) //changing the snake direction (each key is what direction the snake goes)
+            {
+            direction = 1;
+            snake.up();
+            }
+            if (keyIsPressed && keyCode === DOWN)
+            {
+            direction = 2;
+            snake.down();
+            }
+            if (keyIsPressed && keyCode === LEFT)
+            {
+            direction = 3;
+            snake.left();
+            }
+            if (keyIsPressed && keyCode === RIGHT)
+            {
+            direction = 4;
+            snake.right();
+            }
+        }
         if (snake.x >= foodArray[l].x - 15 && snake.x <= foodArray[l].x + 5 && snake.y >= foodArray[l].y - 15 && snake.y <= foodArray[l].y + 5) {
             score++;
             foodArray[l].x = 450;
@@ -206,6 +219,8 @@ draw = function() {
         }
     }
     if (currScene === 3) {
+        snake.tail = 0;
+        direction = 0;
         gameoverScreen();
     }
 };
