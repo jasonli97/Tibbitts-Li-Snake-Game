@@ -1,45 +1,143 @@
+//start of bitmoji section
+var glasses = function(x, y, h){
+    strokeWeight(3); //glasses
+    line(x + 72, y + 30 - h/100, x + 45 - h/150, y + 30 - h/100);
+    line(x + 85, y + 30 - h/100, x + 115 + h/150, y + 30 - h/100);
+    line(x + 75, y + 30 - h/100, x + 75, y + 50);
+    line(x + 45 - h/100, y + 30 - h/100, x + 45 - h/100, y + 50);
+    line(x + 85, y + 30 - h/100, x + 85, y + 50);
+    line(x + 115 + h/100, y + 30 - h/100, x + 115 + h/100, y + 50);
+    line(x + 75, y + 40, x + 85, y + 40);
+};
+var hat = function(x, y, h){
+    y += -h/20;
+    fill(3, 23, 242);
+    rect(x + 66, y +- 30, 30, 40); //the blue box
+    fill(255, 199, 199);
+    rect(x + 89, y +- 24, 3, 6);//windows
+    rect(x + 89, y +- 24, 3, 6);
+    rect(x + 86, y +- 16, 3, 6);
+    rect(x + 86, y +- 16, 3, 6);
+    rect(x + 83, y +- 16, 3, 6);
+    rect(x + 83, y +- 24, 3, 6);
+    rect(x + 70, y +- 24, 3, 6);
+    rect(x + 70, y +- 16, 3, 6);
+    rect(x + 73, y +- 24, 3, 6);
+    rect(x + 73, y +- 16, 3, 6);
+    rect(x + 76, y +- 16, 3, 6);
+    rect(x + 76, y +- 24, 3, 6);
+    rect(x + 89, y +- 16, 3, 6);
+    rect(x + 86, y +- 24, 3, 6);
+
+};
+var drawHead = function(x, y, h){
+    strokeWeight(0.1);
+    fill(250, 255, 212); //neck
+    rect(x + 65 - h/40, y + 90 - h/40, 30 + h/40, 20 + h/40);
+
+    fill(251, 255, 222);
+    ellipse(x + 80, y + 50 - h/20, 80 + h/10, 100 + h/10); //face
+
+    fill(255, 255, 255);
+    ellipse(x + 60 - h/100, y + 40 - h/100, 25 + h/50, 15 + h/50); //eyes
+    ellipse(x + 100 + h/100, y + 40 - h/100, 25 + h/50, 15 + h/50);
+    fill(53, 92, 38);
+    ellipse(x + 60 - h/160, y + 40 - h/160, 10 + h/80, 10 + h/80); //pupils
+    ellipse(x + 100 + h/160, y + 40 - h/160, 10 + h/80, 10 + h/80);
+    stroke(20, 20, 17);
+
+    strokeWeight(1);
+    fill(255, 255, 255);
+    arc(x + 80 - h/300, y + 78 - h/150, 50 + h/50, 20 + h/50, 0, 180); //mouth
+    fill(0, 0, 0);
+    line(x + 55 - h/300, y + 78 - h/150, x + 105 + h/300, y + 78 - h/150);
+    line(x + 58 - h/300, y + 83 - h/150, x + 101 + h/300, y + 83 - h/150);
+
+    fill(82, 9, 9);
+    rect(x + 45 - h/20, y + 5 - h/10, 70 + h/10, 20 + h/10); //hair
+    arc(x + 47 - h/20, y + 30 - h/20, 30 + h/30, 45 + h/30, 120, 290);
+    arc(x + 116 + h/20, y + 30 - h/20, 30 + h/30, 45 + h/30, -135, 91);
+
+    fill(255, 240, 240);
+    triangle(x + 70 - h/150, y + 70 + h/150, x + 80, y + 50 - h/150, x + 90 + h/150, y + 70 + h/150); //nose
+    fill(240, 255, 186);
+    hat(x, y, h);
+    glasses(x, y, h);
+};
+var drawBody = function(x, y, h){
+    strokeWeight(1);
+    fill(25, 230, 80);
+    rect(x + 40 - h/80, y + 105 + h/80, 80 + h/30, 100 + h/200); //torso
+    
+    ellipse(x + 40 - h/40, y + 105, 30, 20); //arms
+    ellipse(x + 120 + h/40, y + 105, 30, 20);
+    rect(x + 119 + h/40, y + 95, 15, 50 + h/20);
+    rect(x + 26 - h/40, y + 95, 15, 50 + h/20);
+    rect(x + 26 - h/40, y + 137, 15, 50 + h/20);
+    rect(x + 119 + h/40, y + 137, 15, 50 + h/20);
+    
+    fill(19, 66, 22); //shirt design
+    rect(x + 49 - h/40, y + 120 + h/40, 20 + h/40, 20 + h/40);
+    rect(x + 90 + h/40, y + 120 + h/40, 20 + h/40, 20 + h/40);
+    rect(x + 70 - h/80, y + 140 + h/40, 20 + h/20, 30 + h/40);
+    rect(x + 60 - h/40, y + 150 + h/40, 10 + h/40, 30 + h/40);
+    rect(x + 90 + h/40, y + 150 + h/40, 10 + h/40, 30 + h/40);
+
+    fill(248, 255, 207); //hands
+    ellipse(x + 128 + h/40, y + 183 + h/40, 20 + h/40, 20 + h/40);
+    ellipse(x + 32 - h/40, y + 188 + h/40, 20 + h/40, 20 + h/40);
+    strokeWeight(1);
+    fill(157, 112, 224);
+    textSize(15 + h/40);
+    text("MT", x + 69 - h/80, y + 134 - h/80); //initials
+};
+var drawMe=function(x, y, h){
+    scale(0.5);
+    drawHead(x, y, h);
+    drawBody(x, y, h); // end of bitmoji function
+};
+
+
+//end of bitmoji section
 //global variables
-var currScene = 1;
+var currScene = 1; //scene counter for each of the three scenes
 var score = 0;
 var highScore = 0;
 var l = 0; //food counter
 //Creating a "snake head" that will move around using button inputs
 var direction; //direction the snake is heading; 1 = up, 2 = down, 3 = left, 4 = right
+var snakeTail = []; //an empty array for the tail to be added when a score is reached
 
 //start of snake
-var Snake = function(x, y, direction) {
+var Snake = function(x, y, direction) { 
     this.x = x;
     this.y = y;
     this.direction = direction;
-    this.tail = 0;
 };
 Snake.prototype.draw = function() {
      fill(16, 26, 173);
      strokeWeight(1);
      rect(this.x, this.y, 10, 10);
-     for (var i = 1; i < this.tail + 1; i++){
-         rect(this.x - 10 * i, this.y, 10, 10);
-     }
 };
-Snake.prototype.up = function() {
+Snake.prototype.up = function() { //moves the snake up
      this.y -= 1;
 };
-Snake.prototype.down = function() {
+Snake.prototype.down = function() {//moves the snake down
      this.y += 1;
 };
-Snake.prototype.right = function() {
+Snake.prototype.right = function() {//moves the snake right
      this.x += 1;
 };
-Snake.prototype.left = function() {
+Snake.prototype.left = function() {//moves the snake left
      this.x -= 1;
 };
 
 //Snake function
-var snake = new Snake(200, 200, UP);
+var snake = new Snake(200, 200, UP); //creates new snake
 //end of snake
 
 //food function
-var Food = function(x, y) {
+var Food = function(x, y) { 
     this.x = x;
     this.y = y;
 };
@@ -50,10 +148,8 @@ Food.prototype.draw = function() {
     ellipse(this.x, this.y, 10, 10);
 };
 
-var foodArray = [];
-for (var  i = 0; i < 500; i++) {
-    foodArray.push(new Food(round(random(30, 360)), round(random(30, 360))));
-}
+var foodArray = []; //starts the food array
+foodArray.push(new Food(round(random(30, 360)), round(random(30, 360)))); //adds 1 initial food
 
 var drawFood = function() {
     foodArray[l].draw();
@@ -93,7 +189,7 @@ Button.prototype.handleMouseClick = function() {
 };//end of button config
 
 //buttons
-var startButton = new Button({
+var startButton = new Button({ //sends the user to the snake screen
     x: 125,
     y: 270,
     label: "Click to Start!",
@@ -102,8 +198,8 @@ var startButton = new Button({
     }
 });
 
-var restartButton = new Button({
-    x: 125,
+var restartButton = new Button({ //sends the user back to the snake screen, reseting stats
+    x: 125,                         //aside from highscore
     y: 270,
     label: "Click to restart!",
     onClick: function() {
@@ -111,6 +207,7 @@ var restartButton = new Button({
         snake.y = 200;
         currScene = 2;
         score = 0;
+        direction = 0;
     }
 });
 
@@ -120,7 +217,7 @@ mouseClicked = function() {
 };
 //end of buttons
 
-var titleScreen = function() {
+var titleScreen = function() { //title screen
     background(88, 200, 240);
     startButton.draw();
     textSize(40);
@@ -128,17 +225,19 @@ var titleScreen = function() {
     text("The Snake Game", 40, 90, 352, 100);
     textSize(20);
     text("By Jason Li & Matthew Tibbitts", 60, 230, 300, 100);
+    drawMe(48, 557, 0);
+    scale(2);
 };
 
-var snakeScreen = function() {
+var snakeScreen = function() { //snake screen
     background(64, 242, 255);
     fill(172, 217, 48);
     rect(20, 20, 360, 360);
     fill(0, 0, 0);
-    text("Score: " + score + "                                                   Highscore: " + highScore, 5, 1);
+    text("Score: " + score + "  " + "Highscore: " + highScore, 5, 1);
 };
 
-var gameoverScreen = function () {
+var gameoverScreen = function () { //end screen
     background(17, 56, 69);
     restartButton.draw();
     textSize(52);
@@ -150,13 +249,13 @@ var gameoverScreen = function () {
     text("Press the button below to start over",40,218,315,100);
 };
 
-var snakeAdd = function(){
+var snakeAdd = function(){ //adds more tail for the snake the more it eats
     if (score % 2 === 0){
-        snake.tail++;
+        snakeTail.push(new Snake(snake.x - 20 * (score / 2), snake.y, direction));
     }
 };
-snake.move = function(direction) {
-    if (keyIsPressed === false) {
+snake.move = function(direction) { //moves the snake when the arrow keys are not pressed
+    if (keyIsPressed === false || (keyIsPressed === true && (keyCode === UP || keyCode === DOWN || keyCode === LEFT || keyCode === RIGHT))) {
         if (direction === 1) {
             snake.up();
         }
@@ -169,6 +268,11 @@ snake.move = function(direction) {
         if (direction === 4) {
             snake.right();
         }
+    }
+};
+var snakeTailFollow = function(){ //makes the tail follow the snake head
+    for (var i = 0; i < snakeTail.length; i++) {
+        snakeTail[i].draw();
     }
 };
 
@@ -208,6 +312,7 @@ draw = function() {
         if (snake.x >= foodArray[l].x - 15 && snake.x <= foodArray[l].x + 5 && snake.y >= foodArray[l].y - 15 && snake.y <= foodArray[l].y + 5) {
             score++;
             foodArray[l].x = 450;
+            foodArray.push(new Food(round(random(30, 360)), round(random(30, 360))));
             l++;
             if (score > highScore){
                 highScore = score;
@@ -219,8 +324,6 @@ draw = function() {
         }
     }
     if (currScene === 3) {
-        snake.tail = 0;
-        direction = 0;
         gameoverScreen();
     }
 };
