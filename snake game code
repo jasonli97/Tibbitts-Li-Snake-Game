@@ -96,7 +96,6 @@ var drawMe=function(x, y, h){
     drawHead(x, y, h);
     drawBody(x, y, h); // end of bitmoji function
 };
-
 var bitmojiHeadAndNeck = function (xPos,yPos,bitHeight)
 {
     noStroke();
@@ -146,7 +145,7 @@ var bitmojiShirt = function (xPos,yPos,bitHeight)
     quad(xPos-(bitHeight/300*71),yPos+(bitHeight/300*90),xPos+(bitHeight/300*108),yPos+(bitHeight/300*90),xPos+(bitHeight/300*67),yPos+(bitHeight/300*56),xPos-(bitHeight/300*31),yPos+(bitHeight/300*56)); //shirt
     fill(3, 3, 3);//text color
     textSize(bitHeight/296*33);//text size
-    text("JL", xPos+(bitHeight/300*-1), yPos+(bitHeight/300*54));//text on shirt
+    text("JL", xPos+(bitHeight/300*11), yPos+(bitHeight/300*85));//text on shirt
 };
 
 //This function draws the hat of the bitmoji
@@ -182,6 +181,15 @@ var drawBitmoji = function (xPos,yPos,bitHeight)
 };
 
 //end of bitmoji section
+
+
+
+
+
+
+
+
+
 //global variables
 var currScene = 1; //scene counter for each of the three scenes
 var score = 0;
@@ -190,6 +198,8 @@ var l = 0; //food counter
 //Creating a "snake head" that will move around using button inputs
 var direction; //direction the snake is heading; 1 = up, 2 = down, 3 = left, 4 = right
 var snakeTail = []; //an empty array for the tail to be added when a score is reached
+var saveX = []; //arrays to save the previous x and y positions of the snake for the body
+var saveY = [];
 
 //start of snake
 var Snake = function(x, y, direction) { 
@@ -217,6 +227,7 @@ Snake.prototype.left = function() {//moves the snake left
 
 //Snake function
 var snake = new Snake(200, 200, UP); //creates new snake
+snakeTail.push(snake);
 //end of snake
 
 //food function
@@ -291,6 +302,7 @@ var restartButton = new Button({ //sends the user back to the snake screen, rese
         currScene = 2;
         score = 0;
         direction = 0;
+        snakeTail = [];
     }
 });
 
@@ -309,7 +321,7 @@ var titleScreen = function() { //title screen
     textSize(20);
     text("By Jason Li & Matthew Tibbitts", 60, 230, 300, 100);
     drawMe(48, 557, 0);
-    drawBitmoji(636,670,225);
+    drawBitmoji(636,651,219);
     scale(2);
 };
 
@@ -335,31 +347,33 @@ var gameoverScreen = function () { //end screen
 
 var snakeAdd = function(){ //adds more tail for the snake the more it eats
     if (score % 2 === 0){
-        snakeTail.push(new Snake(snake.x - 20 * (score / 2), snake.y, direction));
-    }
-};
-snake.move = function(direction) { //moves the snake when the arrow keys are not pressed
-    if (keyIsPressed === false || (keyIsPressed === true && (keyCode === UP || keyCode === DOWN || keyCode === LEFT || keyCode === RIGHT))) {
-        if (direction === 1) {
-            snake.up();
-        }
-        if (direction === 2) {
-            snake.down();
-        }
-        if (direction === 3) {
-            snake.left();
-        }
-        if (direction === 4) {
-            snake.right();
-        }
+        snakeTail.push(new Snake(saveX[saveX.length - 10 * snakeTail.length], saveY[saveY.length - 10 * snakeTail.length], direction));
     }
 };
 var snakeTailFollow = function(){ //makes the tail follow the snake head
-    for (var i = 0; i < snakeTail.length; i++) {
+    for (var i = 1; i < snakeTail.length; i++) {
         snakeTail[i].draw();
+        snakeTail[i].x = saveX[saveX.length - 10 * i];
+        snakeTail[i].y = saveY[saveY.length - 10 * i];
     }
 };
 
+Snake.prototype.move = function(direction) { //moves the snake when the arrow keys are not pressed
+    if (keyIsPressed === false || (keyIsPressed === true && (keyCode !== UP || keyCode !== DOWN || keyCode !== LEFT || keyCode !== RIGHT))) {
+        if (direction === 1) {
+            this.up();
+        }
+        if (direction === 2) {
+            this.down();
+        }
+        if (direction === 3) {
+            this.left();
+        }
+        if (direction === 4) {
+            this.right();
+        }
+    }
+};
 //draw function
 draw = function() {
     if (currScene === 1) 
@@ -371,27 +385,28 @@ draw = function() {
         snake.draw(); //starts the snake
         drawFood();
         snake.move(direction);
+        snakeTailFollow();
         if (snake.x > 20 && snake.x < 370 && snake.y > 20 && snake.y < 370){
+            saveX.push(snake.x);
+            saveY.push(snake.y);
             if (keyIsPressed && keyCode === UP) //changing the snake direction (each key is what direction the snake goes)
             {
             direction = 1;
-            snake.up();
             }
             if (keyIsPressed && keyCode === DOWN)
             {
             direction = 2;
-            snake.down();
             }
             if (keyIsPressed && keyCode === LEFT)
             {
             direction = 3;
-            snake.left();
             }
             if (keyIsPressed && keyCode === RIGHT)
             {
             direction = 4;
-            snake.right();
             }
+            saveX.push(snake.x);
+            saveY.push(snake.y);
         }
         if (snake.x >= foodArray[l].x - 15 && snake.x <= foodArray[l].x + 5 && snake.y >= foodArray[l].y - 15 && snake.y <= foodArray[l].y + 5) {
             score++;
