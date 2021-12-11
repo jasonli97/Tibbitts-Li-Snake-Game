@@ -97,6 +97,89 @@ var drawMe=function(x, y, h){
     drawBody(x, y, h); // end of bitmoji function
 };
 
+var bitmojiHeadAndNeck = function (xPos,yPos,bitHeight)
+{
+    noStroke();
+    fill(241,194,125);//skin tone
+    ellipse (xPos+(bitHeight/300*15),yPos-(bitHeight/300*40),bitHeight/300*136,           bitHeight/300*179); //head
+    rect (xPos+(bitHeight/300*2),yPos+(bitHeight/300*19),bitHeight/300*24,bitHeight       /300*62);//neck
+};
+
+//This function draws the hair of the bitmoji
+var bitmojiHair = function (xPos,yPos,bitHeight)
+{
+    fill(0, 0, 0);//hair color
+    quad(xPos+(bitHeight/300*69),yPos-(bitHeight/300*43),xPos+(bitHeight/300*85),yPos     -(bitHeight/300*43),xPos+(bitHeight/300*68),yPos-(bitHeight/300*124),xPos+(bitHeight/300*40),yPos-(bitHeight/300*125)); //left hair
+    quad(xPos-(bitHeight/300*33),yPos-(bitHeight/300*43),xPos-(bitHeight/300*54),yPos-(bitHeight/300*43),xPos-(bitHeight/300*36),yPos-(bitHeight/300*123),xPos-(bitHeight/300*5),yPos-(bitHeight/300*128)); //right hair
+    ellipse(xPos+(bitHeight/300*16),yPos-(bitHeight/300*122),bitHeight/300*103,bitHeight/300*25);//top hair
+};
+
+//This function draws the eyes and eyebrows of the bitmoji
+var bitmojiEyesAndEyebrows = function (xPos,yPos,bitHeight)
+{
+    stroke(0, 0, 0);//eye outline
+    fill(255, 255, 255);//eye background color
+    ellipse(xPos-(bitHeight/300*3),yPos-(bitHeight/300*58),bitHeight/300*29,bitHeight/300*16);//right eye
+    ellipse(xPos+(bitHeight/300*36),yPos-(bitHeight/300*58),bitHeight/300*29,bitHeight/300*16);//left eye
+    fill(141,85,36);//iris color
+    ellipse(xPos-(bitHeight/300*3),yPos-(bitHeight/300*58),bitHeight/300*8,bitHeight/300*9);//right iris
+    ellipse(xPos+(bitHeight/300*36),yPos-bitHeight/300*58,bitHeight/300*8,bitHeight/300*9);//left iris 
+    fill(0, 0, 0);
+    rect(xPos+(bitHeight/300*22),yPos-(bitHeight/300*80),bitHeight/300*25,bitHeight/300*5);//left eyebrow
+    rect(xPos-(bitHeight/300*15),yPos-(bitHeight/300*80),bitHeight/300*25,bitHeight/300*5);//right eyebrow
+};
+
+//This function draws the nose and mouth of the bitmoji
+var bitmojiNoseAndMouth = function (xPos,yPos,bitHeight)
+{
+    fill(241,194,125);//skin tone
+    bezier(xPos+(bitHeight/300*18),yPos-(bitHeight/300*15),xPos-(bitHeight/300*8),yPos-(bitHeight/300*10),xPos+(bitHeight/300*2),yPos-(bitHeight/300*41),xPos+(bitHeight/300*21),yPos-bitHeight/300*33); //nose
+    fill(255, 255, 255);//teeth color
+    arc(xPos+(bitHeight/300*16),yPos+(bitHeight/300*7),bitHeight/300*48,bitHeight/300*30,bitHeight/300*0,180);//mouth
+    line(xPos+(bitHeight/300*41),yPos+(bitHeight/300*8),xPos-(bitHeight/300*9),yPos+bitHeight/300*7);//top of mouth
+};
+
+//This function draws the shirt of the bitmoji
+var bitmojiShirt = function (xPos,yPos,bitHeight)
+{
+    fill(135,206,250);//shirt color
+    quad(xPos-(bitHeight/300*71),yPos+(bitHeight/300*90),xPos+(bitHeight/300*108),yPos+(bitHeight/300*90),xPos+(bitHeight/300*67),yPos+(bitHeight/300*56),xPos-(bitHeight/300*31),yPos+(bitHeight/300*56)); //shirt
+    fill(3, 3, 3);//text color
+    textSize(bitHeight/296*33);//text size
+    text("JL", xPos+(bitHeight/300*11), yPos+(bitHeight/300*85));//text on shirt
+};
+
+//This function draws the hat of the bitmoji
+var bitmojiHat = function (xPos,yPos,bitHeight)
+{
+    noStroke();
+    fill(104, 116, 122);//hat color
+    rect(xPos-(bitHeight/300*62),yPos-(bitHeight/300*124),bitHeight/300*159,bitHeight/300*24);//bottom part of hat
+    rect(xPos-(bitHeight/300*35),yPos-(bitHeight/300*183),bitHeight/300*102,bitHeight/300*59);//top part of hat
+};
+
+//This function draws out head portion of the bitmoji which inludes everything on the face, the hair, and the hat
+var drawBitmojiHead = function (xPos,yPos,bitHeight)
+{
+    bitmojiHeadAndNeck(xPos,yPos,bitHeight);
+    bitmojiHair(xPos,yPos,bitHeight);
+    bitmojiEyesAndEyebrows(xPos,yPos,bitHeight);
+    bitmojiNoseAndMouth(xPos,yPos,bitHeight);
+    bitmojiHat(xPos,yPos,bitHeight);
+};
+
+//This function draws out the body portion of the bitmoji which includes the shirt
+var drawBitmojiBody = function (xPos,yPos,bitHeight)
+{
+    bitmojiShirt(xPos,yPos,bitHeight);
+};
+
+//This draws the bitmoji as a whole and the function combines both the head and body portion of the bitmoji
+var drawBitmoji = function (xPos,yPos,bitHeight)
+{
+    drawBitmojiHead(xPos,yPos,bitHeight);
+    drawBitmojiBody(xPos,yPos,bitHeight);
+};
 
 //end of bitmoji section
 //global variables
@@ -226,6 +309,7 @@ var titleScreen = function() { //title screen
     textSize(20);
     text("By Jason Li & Matthew Tibbitts", 60, 230, 300, 100);
     drawMe(48, 557, 0);
+    drawBitmoji(636,651,219);
     scale(2);
 };
 
