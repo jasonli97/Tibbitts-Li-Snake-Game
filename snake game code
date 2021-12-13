@@ -145,7 +145,7 @@ var bitmojiShirt = function (xPos,yPos,bitHeight)
     quad(xPos-(bitHeight/300*71),yPos+(bitHeight/300*90),xPos+(bitHeight/300*108),yPos+(bitHeight/300*90),xPos+(bitHeight/300*67),yPos+(bitHeight/300*56),xPos-(bitHeight/300*31),yPos+(bitHeight/300*56)); //shirt
     fill(3, 3, 3);//text color
     textSize(bitHeight/296*33);//text size
-    text("JL", xPos+(bitHeight/300*11), yPos+(bitHeight/300*85));//text on shirt
+    text("JL", xPos+(bitHeight/300*-1), yPos+(bitHeight/300*54));//text on shirt
 };
 
 //This function draws the hat of the bitmoji
@@ -321,7 +321,7 @@ var titleScreen = function() { //title screen
     textSize(20);
     text("By Jason Li & Matthew Tibbitts", 60, 230, 300, 100);
     drawMe(48, 557, 0);
-    drawBitmoji(636,651,219);
+    drawBitmoji(636,670,225);
     scale(2);
 };
 
