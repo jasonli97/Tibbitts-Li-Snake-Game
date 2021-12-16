@@ -145,7 +145,7 @@ var bitmojiShirt = function (xPos,yPos,bitHeight)
     quad(xPos-(bitHeight/300*71),yPos+(bitHeight/300*90),xPos+(bitHeight/300*108),yPos+(bitHeight/300*90),xPos+(bitHeight/300*67),yPos+(bitHeight/300*56),xPos-(bitHeight/300*31),yPos+(bitHeight/300*56)); //shirt
     fill(3, 3, 3);//text color
     textSize(bitHeight/296*33);//text size
-    text("JL", xPos+(bitHeight/300*-1), yPos+(bitHeight/300*54));//text on shirt
+    text("JL", xPos+(bitHeight/300*11), yPos+(bitHeight/300*85));//text on shirt
 };
 
 //This function draws the hat of the bitmoji
@@ -192,7 +192,7 @@ var drawBitmoji = function (xPos,yPos,bitHeight)
 
 //global variables
 var currScene = 1; //scene counter for each of the three scenes
-var score = 0;
+var score = 8;
 var highScore = 0;
 var l = 0; //food counter
 //Creating a "snake head" that will move around using button inputs
@@ -200,6 +200,7 @@ var direction; //direction the snake is heading; 1 = up, 2 = down, 3 = left, 4 =
 var snakeTail = []; //an empty array for the tail to be added when a score is reached
 var saveX = []; //arrays to save the previous x and y positions of the snake for the body
 var saveY = [];
+var snakeColor = color(17, 0, 255);
 
 //start of snake
 var Snake = function(x, y, direction) { 
@@ -208,7 +209,7 @@ var Snake = function(x, y, direction) {
     this.direction = direction;
 };
 Snake.prototype.draw = function() {
-     fill(16, 26, 173);
+     fill(snakeColor);
      strokeWeight(1);
      rect(this.x, this.y, 10, 10);
 };
@@ -227,7 +228,6 @@ Snake.prototype.left = function() {//moves the snake left
 
 //Snake function
 var snake = new Snake(200, 200, UP); //creates new snake
-snakeTail.push(snake);
 //end of snake
 
 //food function
@@ -292,6 +292,30 @@ var startButton = new Button({ //sends the user to the snake screen
     }
 });
 
+var colorButtonRed = new Button({ //makes the Snake red
+    x: 287,
+    y: 18,
+    label: "Red Snake!",
+    onClick: function() {
+        snakeColor = color(135, 13, 13);
+    }
+});
+var colorButtonYellow = new Button({ //makes the Snake yellow
+    x: 273,
+    y: 76,
+    label: "Yellow Snake!",
+    onClick: function() {
+        snakeColor = color(180, 240, 29);
+    }
+});
+var colorButtonBlue = new Button({ //makes the Snake blue
+    x: 288,
+    y: 135,
+    label: "Blue Snake!",
+    onClick: function() {
+        snakeColor = color(36, 4, 196);
+    }
+});
 var restartButton = new Button({ //sends the user back to the snake screen, reseting stats
     x: 125,                         //aside from highscore
     y: 270,
@@ -302,26 +326,32 @@ var restartButton = new Button({ //sends the user back to the snake screen, rese
         currScene = 2;
         score = 0;
         direction = 0;
-        snakeTail = [];
+        snakeTail = []; //restarts the tail array
     }
 });
 
 mouseClicked = function() {
     startButton.handleMouseClick();
     restartButton.handleMouseClick();
+    colorButtonRed.handleMouseClick();
+    colorButtonYellow.handleMouseClick();
+    colorButtonBlue.handleMouseClick();
 };
 //end of buttons
 
 var titleScreen = function() { //title screen
     background(88, 200, 240);
     startButton.draw();
+    colorButtonRed.draw();
+    colorButtonYellow.draw();
+    colorButtonBlue.draw();
     textSize(40);
     fill(37, 130, 33);
-    text("The Snake Game", 40, 90, 352, 100);
+    text("The Snake Game", 25, 24, 301, 100);
     textSize(20);
     text("By Jason Li & Matthew Tibbitts", 60, 230, 300, 100);
     drawMe(48, 557, 0);
-    drawBitmoji(636,670,225);
+    drawBitmoji(636,651,219);
     scale(2);
 };
 
@@ -346,15 +376,18 @@ var gameoverScreen = function () { //end screen
 };
 
 var snakeAdd = function(){ //adds more tail for the snake the more it eats
-    if (score % 2 === 0){
-        snakeTail.push(new Snake(saveX[saveX.length - 10 * snakeTail.length], saveY[saveY.length - 10 * snakeTail.length], direction));
+    if (score % 1 === 0){
+        snakeTail.push(new Snake(saveX[saveX.length - 25 * snakeTail.length], saveY[saveY.length - 25 * snakeTail.length], direction));
     }
 };
 var snakeTailFollow = function(){ //makes the tail follow the snake head
-    for (var i = 1; i < snakeTail.length; i++) {
+    for (var i = 0; i < snakeTail.length; i++) {
         snakeTail[i].draw();
-        snakeTail[i].x = saveX[saveX.length - 10 * i];
-        snakeTail[i].y = saveY[saveY.length - 10 * i];
+        snakeTail[i].x = saveX[saveX.length - 25 * (i + 1)];
+        snakeTail[i].y = saveY[saveY.length - 25 * (i + 1)];
+        if (snake.x >= snakeTail[i].x && snake.y >= snakeTail[i].y && snake.x <= snakeTail[i].x + 5 && snake.y <= snakeTail[i].y + 5) {
+            currScene = 3;
+        }
     }
 };
 
