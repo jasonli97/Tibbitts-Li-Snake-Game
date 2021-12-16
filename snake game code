@@ -201,6 +201,7 @@ var snakeTail = []; //an empty array for the tail to be added when a score is re
 var saveX = []; //arrays to save the previous x and y positions of the snake for the body
 var saveY = [];
 var snakeColor = color(17, 0, 255);
+var speed = 1;
 
 //start of snake
 var Snake = function(x, y, direction) { 
@@ -213,17 +214,19 @@ Snake.prototype.draw = function() {
      strokeWeight(1);
      rect(this.x, this.y, 10, 10);
 };
+
+
 Snake.prototype.up = function() { //moves the snake up
-     this.y -= 1;
+     this.y -= speed;
 };
 Snake.prototype.down = function() {//moves the snake down
-     this.y += 1;
+     this.y += speed;
 };
 Snake.prototype.right = function() {//moves the snake right
-     this.x += 1;
+     this.x += speed;
 };
 Snake.prototype.left = function() {//moves the snake left
-     this.x -= 1;
+     this.x -= speed;
 };
 
 //Snake function
@@ -378,13 +381,14 @@ var gameoverScreen = function () { //end screen
 var snakeAdd = function(){ //adds more tail for the snake the more it eats
     if (score % 1 === 0){
         snakeTail.push(new Snake(saveX[saveX.length - 25 * snakeTail.length], saveY[saveY.length - 25 * snakeTail.length], direction));
+       speed ++;
     }
 };
 var snakeTailFollow = function(){ //makes the tail follow the snake head
     for (var i = 0; i < snakeTail.length; i++) {
         snakeTail[i].draw();
-        snakeTail[i].x = saveX[saveX.length - 25 * (i + 1)];
-        snakeTail[i].y = saveY[saveY.length - 25 * (i + 1)];
+        snakeTail[i].x = saveX[saveX.length - 10 * (i + 1)];
+        snakeTail[i].y = saveY[saveY.length - 10 * (i + 1)];
         if (snake.x >= snakeTail[i].x && snake.y >= snakeTail[i].y && snake.x <= snakeTail[i].x + 5 && snake.y <= snakeTail[i].y + 5) {
             currScene = 3;
         }
@@ -407,6 +411,9 @@ Snake.prototype.move = function(direction) { //moves the snake when the arrow ke
         }
     }
 };
+
+
+
 //draw function
 draw = function() {
     if (currScene === 1) 
@@ -419,6 +426,7 @@ draw = function() {
         drawFood();
         snake.move(direction);
         snakeTailFollow();
+        
         if (snake.x > 20 && snake.x < 370 && snake.y > 20 && snake.y < 370){
             saveX.push(snake.x);
             saveY.push(snake.y);
