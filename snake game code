@@ -202,6 +202,7 @@ var saveX = []; //arrays to save the previous x and y positions of the snake for
 var saveY = [];
 var snakeColor = color(17, 0, 255);
 var speed = 1;
+var isIncremental = false;
 
 //start of snake
 var Snake = function(x, y, direction) { 
@@ -330,15 +331,45 @@ var restartButton = new Button({ //sends the user back to the snake screen, rese
         score = 0;
         direction = 0;
         snakeTail = []; //restarts the tail array
+        speed = 1;
     }
 });
-
+var incrementalSpeedButton = new Button({ //makes the Snake red
+    x: 149,
+    y: 340,
+    width: 110,
+    label: "1:1 Speed!",
+    onClick: function() {
+        isIncremental = true;
+    }
+});
+var speedButtonOne = new Button({ //makes the speed normal
+    x: -5,
+    y: 115,
+    width: 140,
+    label: "Speed Normal!",
+    onClick: function() {
+        speed = 10;
+    }
+});
+var speedButtonTwo = new Button({ //makes the speed fast
+    x: -5,
+    y: 180,
+    width: 120,
+    label: "Speed Fast!",
+    onClick: function() {
+        speed = 5;
+    }
+});
 mouseClicked = function() {
     startButton.handleMouseClick();
     restartButton.handleMouseClick();
     colorButtonRed.handleMouseClick();
     colorButtonYellow.handleMouseClick();
     colorButtonBlue.handleMouseClick();
+    incrementalSpeedButton.handleMouseClick();
+    speedButtonOne.handleMouseClick();
+    speedButtonTwo.handleMouseClick();
 };
 //end of buttons
 
@@ -348,6 +379,9 @@ var titleScreen = function() { //title screen
     colorButtonRed.draw();
     colorButtonYellow.draw();
     colorButtonBlue.draw();
+    incrementalSpeedButton.draw();
+    speedButtonOne.draw();
+    speedButtonTwo.draw();
     textSize(40);
     fill(37, 130, 33);
     text("The Snake Game", 25, 24, 301, 100);
@@ -380,15 +414,17 @@ var gameoverScreen = function () { //end screen
 
 var snakeAdd = function(){ //adds more tail for the snake the more it eats
     if (score % 1 === 0){
-        snakeTail.push(new Snake(saveX[saveX.length - 25 * snakeTail.length], saveY[saveY.length - 25 * snakeTail.length], direction));
-       speed ++;
+        snakeTail.push(new Snake(saveX[saveX.length - round((22 / speed)) * snakeTail.length], saveY[saveY.length - round((22 / speed)) * snakeTail.length], direction));
+    }
+    if (isIncremental === true) {
+        speed++;
     }
 };
 var snakeTailFollow = function(){ //makes the tail follow the snake head
     for (var i = 0; i < snakeTail.length; i++) {
         snakeTail[i].draw();
-        snakeTail[i].x = saveX[saveX.length - 10 * (i + 1)];
-        snakeTail[i].y = saveY[saveY.length - 10 * (i + 1)];
+        snakeTail[i].x = saveX[saveX.length - round((22 / speed)) * (i + 1)];
+        snakeTail[i].y = saveY[saveY.length - round((22 / speed)) * (i + 1)];
         if (snake.x >= snakeTail[i].x && snake.y >= snakeTail[i].y && snake.x <= snakeTail[i].x + 5 && snake.y <= snakeTail[i].y + 5) {
             currScene = 3;
         }
