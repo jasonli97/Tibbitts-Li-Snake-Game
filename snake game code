@@ -334,7 +334,7 @@ var restartButton = new Button({ //sends the user back to the snake screen, rese
         speed = 1;
     }
 });
-var incrementalSpeedButton = new Button({ //makes the Snake red
+var incrementalSpeedButton = new Button({ //makes the Snake grow incrementally
     x: 149,
     y: 340,
     width: 110,
