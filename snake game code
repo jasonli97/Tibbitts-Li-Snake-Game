@@ -145,7 +145,7 @@ var bitmojiShirt = function (xPos,yPos,bitHeight)
     quad(xPos-(bitHeight/300*71),yPos+(bitHeight/300*90),xPos+(bitHeight/300*108),yPos+(bitHeight/300*90),xPos+(bitHeight/300*67),yPos+(bitHeight/300*56),xPos-(bitHeight/300*31),yPos+(bitHeight/300*56)); //shirt
     fill(3, 3, 3);//text color
     textSize(bitHeight/296*33);//text size
-    text("JL", xPos+(bitHeight/300*11), yPos+(bitHeight/300*85));//text on shirt
+    text("JL", xPos+(bitHeight/300*-1), yPos+(bitHeight/300*54));//text on shirt
 };
 
 //This function draws the hat of the bitmoji
@@ -296,25 +296,37 @@ var startButton = new Button({ //sends the user to the snake screen
     }
 });
 
+var playButton = new Button({ //sends the user to the snake screen
+    x: 125,
+    y: 316,
+    label: "         Play!",
+    onClick: function() {
+        currScene = 3;
+    }
+});
+
 var colorButtonRed = new Button({ //makes the Snake red
-    x: 287,
-    y: 18,
+    x: 0,
+    y: 200,
+    width:118,
     label: "Red Snake!",
     onClick: function() {
         snakeColor = color(135, 13, 13);
     }
 });
 var colorButtonYellow = new Button({ //makes the Snake yellow
-    x: 273,
-    y: 76,
+    x: 134,
+    y: 200,
+    width:133,
     label: "Yellow Snake!",
     onClick: function() {
         snakeColor = color(180, 240, 29);
     }
 });
 var colorButtonBlue = new Button({ //makes the Snake blue
-    x: 288,
-    y: 135,
+    x: 280,
+    y: 200,
+    width:118,
     label: "Blue Snake!",
     onClick: function() {
         snakeColor = color(36, 4, 196);
@@ -327,7 +339,7 @@ var restartButton = new Button({ //sends the user back to the snake screen, rese
     onClick: function() {
         snake.x = 200;
         snake.y = 200;
-        currScene = 2;
+        currScene = 3;
         score = 0;
         direction = 0;
         snakeTail = []; //restarts the tail array
@@ -336,7 +348,7 @@ var restartButton = new Button({ //sends the user back to the snake screen, rese
 });
 var incrementalSpeedButton = new Button({ //makes the Snake grow incrementally
     x: 149,
-    y: 340,
+    y: 120,
     width: 110,
     label: "1:1 Speed!",
     onClick: function() {
@@ -344,17 +356,17 @@ var incrementalSpeedButton = new Button({ //makes the Snake grow incrementally
     }
 });
 var speedButtonOne = new Button({ //makes the speed normal
-    x: -5,
-    y: 115,
-    width: 140,
+    x: 0,
+    y: 120, 
+    width:138,
     label: "Speed Normal!",
     onClick: function() {
         speed = 10;
     }
 });
 var speedButtonTwo = new Button({ //makes the speed fast
-    x: -5,
-    y: 180,
+    x: 279,
+    y: 120,
     width: 120,
     label: "Speed Fast!",
     onClick: function() {
@@ -370,26 +382,36 @@ mouseClicked = function() {
     incrementalSpeedButton.handleMouseClick();
     speedButtonOne.handleMouseClick();
     speedButtonTwo.handleMouseClick();
+    playButton.handleMouseClick();
 };
 //end of buttons
 
 var titleScreen = function() { //title screen
     background(88, 200, 240);
     startButton.draw();
+    textSize(40);
+    fill(37, 130, 33);
+    text("The Snake Game", 40, 69, 320, 100);
+    textSize(20);
+    text("By Jason Li & Matthew Tibbitts", 60, 230, 300, 100);
+    drawMe(48, 557, 0);
+    drawBitmoji(636,670,225);
+    scale(2);
+};
+
+var selectionScreen = function () {
+    background(88, 200, 240);
+    textAlign(CENTER);
+    textSize(30);
+    fill(37, 130, 33);
+    text("Choose your speed and snake color",43, 15,309,214);
     colorButtonRed.draw();
     colorButtonYellow.draw();
     colorButtonBlue.draw();
     incrementalSpeedButton.draw();
     speedButtonOne.draw();
     speedButtonTwo.draw();
-    textSize(40);
-    fill(37, 130, 33);
-    text("The Snake Game", 25, 24, 301, 100);
-    textSize(20);
-    text("By Jason Li & Matthew Tibbitts", 60, 230, 300, 100);
-    drawMe(48, 557, 0);
-    drawBitmoji(636,651,219);
-    scale(2);
+    playButton.draw();
 };
 
 var snakeScreen = function() { //snake screen
@@ -426,7 +448,7 @@ var snakeTailFollow = function(){ //makes the tail follow the snake head
         snakeTail[i].x = saveX[saveX.length - round((22 / speed)) * (i + 1)];
         snakeTail[i].y = saveY[saveY.length - round((22 / speed)) * (i + 1)];
         if (snake.x >= snakeTail[i].x && snake.y >= snakeTail[i].y && snake.x <= snakeTail[i].x + 5 && snake.y <= snakeTail[i].y + 5) {
-            currScene = 3;
+            currScene = 4;
         }
     }
 };
@@ -455,7 +477,10 @@ draw = function() {
     if (currScene === 1) 
         {titleScreen(); //title screen
         }
-    if (currScene === 2) {
+    if (currScene === 2)
+        {selectionScreen(); //title screen
+        }
+    if (currScene === 3) {
         textSize(15);
         snakeScreen();  //game screen
         snake.draw(); //starts the snake
@@ -499,7 +524,8 @@ draw = function() {
             currScene = 3;
         }
     }
-    if (currScene === 3) {
+    if (currScene === 4) {
         gameoverScreen();
     }
 };
+
