@@ -192,7 +192,7 @@ var drawBitmoji = function (xPos,yPos,bitHeight)
 
 //global variables
 var currScene = 1; //scene counter for each of the three scenes
-var score = 8;
+var score = 0;
 var highScore = 0;
 var l = 0; //food counter
 //Creating a "snake head" that will move around using button inputs
