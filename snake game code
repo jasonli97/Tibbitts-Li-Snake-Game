@@ -289,7 +289,7 @@ Button.prototype.handleMouseClick = function() {
 //buttons
 var startButton = new Button({ //sends the user to the snake screen
     x: 125,
-    y: 270,
+    y: 150,
     label: "Click to Start!",
     onClick: function() {
         currScene = 2;
@@ -298,7 +298,7 @@ var startButton = new Button({ //sends the user to the snake screen
 
 var playButton = new Button({ //sends the user to the snake screen
     x: 125,
-    y: 316,
+    y: 320,
     label: "         Play!",
     onClick: function() {
         currScene = 3;
@@ -474,11 +474,11 @@ Snake.prototype.move = function(direction) { //moves the snake when the arrow ke
 
 //draw function
 draw = function() {
-    if (currScene === 1) 
-        {titleScreen(); //title screen
+    if (currScene === 1) {
+            titleScreen(); //title screen
         }
-    if (currScene === 2)
-        {selectionScreen(); //title screen
+    if (currScene === 2) {
+            selectionScreen(); //options screen
         }
     if (currScene === 3) {
         textSize(15);
@@ -521,11 +521,10 @@ draw = function() {
             snakeAdd();
         }
         if (snake.x <= 20 || snake.x >= 370 || snake.y <= 20 || snake.y >= 370) {
-            currScene = 3;
+            currScene = 4;
         }
     }
     if (currScene === 4) {
         gameoverScreen();
     }
 };
-
