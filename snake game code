@@ -203,6 +203,7 @@ var saveY = [];
 var snakeColor = color(17, 0, 255);
 var speed = 1;
 var isIncremental = false;
+var startSpeed = 1;
 
 //start of snake
 var Snake = function(x, y, direction) { 
@@ -343,7 +344,7 @@ var restartButton = new Button({ //sends the user back to the snake screen, rese
         score = 0;
         direction = 0;
         snakeTail = []; //restarts the tail array
-        speed = 1;
+        speed = startSpeed;
     }
 });
 var incrementalSpeedButton = new Button({ //makes the Snake grow incrementally
@@ -362,6 +363,7 @@ var speedButtonOne = new Button({ //makes the speed normal
     label: "Speed Normal!",
     onClick: function() {
         speed = 1;
+        startSpeed = 1;
     }
 });
 var speedButtonTwo = new Button({ //makes the speed fast
@@ -371,6 +373,7 @@ var speedButtonTwo = new Button({ //makes the speed fast
     label: "Speed Fast!",
     onClick: function() {
         speed = 3;
+        startSpeed = 3;
     }
 });
 mouseClicked = function() {
@@ -436,7 +439,7 @@ var gameoverScreen = function () { //end screen
 
 var snakeAdd = function(){ //adds more tail for the snake the more it eats
     if (score % 1 === 0){
-        snakeTail.push(new Snake(saveX[saveX.length - round((22 / speed)) * snakeTail.length], saveY[saveY.length - round((22 / speed)) * snakeTail.length], direction));
+        snakeTail.push(new Snake(saveX[saveX.length - ceil((22 / speed)) * snakeTail.length], saveY[saveY.length - ceil((22 / speed)) * snakeTail.length], direction));
     }
     if (isIncremental === true) {
         speed++;
@@ -445,8 +448,8 @@ var snakeAdd = function(){ //adds more tail for the snake the more it eats
 var snakeTailFollow = function(){ //makes the tail follow the snake head
     for (var i = 0; i < snakeTail.length; i++) {
         snakeTail[i].draw();
-        snakeTail[i].x = saveX[saveX.length - round((22 / speed)) * (i + 1)];
-        snakeTail[i].y = saveY[saveY.length - round((22 / speed)) * (i + 1)];
+        snakeTail[i].x = saveX[saveX.length - ceil((22 / speed)) * (i + 1)];
+        snakeTail[i].y = saveY[saveY.length - ceil((22 / speed)) * (i + 1)];
         if (snake.x >= snakeTail[i].x && snake.y >= snakeTail[i].y && snake.x <= snakeTail[i].x + 5 && snake.y <= snakeTail[i].y + 5) {
             currScene = 4;
         }
