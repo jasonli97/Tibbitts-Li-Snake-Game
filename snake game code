@@ -361,7 +361,7 @@ var speedButtonOne = new Button({ //makes the speed normal
     width:138,
     label: "Speed Normal!",
     onClick: function() {
-        speed = 10;
+        speed = 1;
     }
 });
 var speedButtonTwo = new Button({ //makes the speed fast
@@ -370,7 +370,7 @@ var speedButtonTwo = new Button({ //makes the speed fast
     width: 120,
     label: "Speed Fast!",
     onClick: function() {
-        speed = 5;
+        speed = 3;
     }
 });
 mouseClicked = function() {
